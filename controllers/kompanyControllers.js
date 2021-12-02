@@ -18,7 +18,27 @@ const kompanyProcceed = async(app,req,res) =>{
     req.error = userDetails.error
   }
   req.redirectURI = redirectURI
-  return app.render(req, res, "/kompany/proceed", req.query);
+  let komanyAuthFinished = req.cookies.komanyAuthFinished;
+  console.log("Kompany/procced cookies:")
+  console.log(req.cookies)
+  if(komanyAuthFinished){
+    return app.render(req, res, "/kompany/proceed", req.query);
+  }else{
+    let legalPersonIdentifier = await getSessionData(
+      sessionId,
+      "legalPersonIdentifier"
+    );
+    let companyName = await getSessionData(sessionId, "companyName");
+    req.userDetails = userDetails;
+    req.companyName = companyName;
+    req.legalPersonIdentifier = legalPersonIdentifier;
+    req.sessionId = sessionId;
+    if(userDetails.error){
+      req.error = userDetails.error
+    }
+    return app.render(req, res, "/kyb/validate-relation", req.query);
+  }
+  
 
 }
 
@@ -43,13 +63,16 @@ const startKompanyLogin = async (app, req, res, serverPassport, oidcClient) => {
   await setOrUpdateSessionData(sessionId, "kompanySessionId", externalSessionId);
 
   let options = {
-    maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+    maxAge: 1000 * 60 *2, // would expire after 2 minutes
     httpOnly: false, // The cookie only accessible by the web server
     signed: false, // Indicates if the cookie should be signed
+    overwrite: true,
   };
+  
   res.cookie("sessionId", sessionId, options); // options is optional
   res.cookie("kompanySessionId", externalSessionId, options);
   res.cookie("kyb", "false", options); // options is optional
+  res.clearCookie("komanyAuthFinished");
 
   claims.userinfo.verified_claims.verification.evidence[0].registry.country.value =
     country;

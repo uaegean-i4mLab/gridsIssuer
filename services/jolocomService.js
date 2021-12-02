@@ -62,7 +62,7 @@ const makeConnectionRequest = async (
 ) => {
   const authRequest = await issuerAgent.authRequestToken({
     callbackURL: `${callback}`,
-    description: "connect with SEAL/myIDs SSI Issuer?",
+    description: "Connect with KYB Custodian?",
   });
   // console.log(authRequest);
   var code = qr.image(authRequest.encode(), {
@@ -213,7 +213,7 @@ const makeVC = async (
     name: credType,
     context: [
       {
-        SimpleExample: `https://seal.project.eu/terms/${credType}`,
+        SimpleExample: `https://grids.project.eu/terms/${credType}`,
         schema: "https://schema.org/",
         source: "schema:source",
       },

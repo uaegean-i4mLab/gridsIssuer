@@ -333,7 +333,7 @@ async function sendToken(accessToken, endpoint) {
 
     const options = {
       hostname: host,
-      port: 8050,
+      port: port,
       path: path,
       method: "GET",
       headers: {

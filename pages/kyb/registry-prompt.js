@@ -2,9 +2,9 @@ import React from "react";
 import axios from "axios";
 import LayoutNew from "../../components/LayoutNew";
 import { connect } from "react-redux";
-import ValidateTable from "../../components/ValidateKYBComp";
 import Head from "next/head";
-import RegistryPromptAreaComp from  "../../components/InfoArea/RegistryPromptArea"
+import RegistryPromptAreaComp from "../../components/InfoArea/RegistryPromptArea";
+import Cookies from "js-cookie";
 
 class Wizard extends React.Component {
   constructor(props) {
@@ -53,8 +53,17 @@ class Wizard extends React.Component {
   }
 
   proceedToKeycloak() {
+    //finish the flow by redirecting back to keycloak to  "continue" the OIDC flow originated by the DC
     console.log("proceed to keycloak");
-    window.location.href = this.props.keycloakUrl;
+    let isKompanySpecificFlow = Cookies.get("kompanySessionId");
+    
+    if (isKompanySpecificFlow) {
+      Cookies.set("komanyAuthFinished", "true");
+      Cookies.remove("kompanySessionId")
+      window.location.href = "/kompany/proceed";
+    } else {
+      window.location.href = this.props.keycloakUrl;
+    }
   }
 
   render() {
@@ -100,10 +109,12 @@ class Wizard extends React.Component {
           </div>
         </div> */}
 
-        <RegistryPromptAreaComp userDetails={this.props.userDetails} 
-        proceedToKeycloak={this.proceedToKeycloak}
-        addToRegistryDiv={this.state.addedToRegistry}
-        addUserToRegistry={this.addUserToRegistry}/>
+        <RegistryPromptAreaComp
+          userDetails={this.props.userDetails}
+          proceedToKeycloak={this.proceedToKeycloak}
+          addToRegistryDiv={this.state.addedToRegistry}
+          addUserToRegistry={this.addUserToRegistry}
+        />
       </LayoutNew>
     );
   }

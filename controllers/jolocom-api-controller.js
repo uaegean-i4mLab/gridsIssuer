@@ -103,8 +103,8 @@ const handleVCResponseController = async (req, res, issuerAgent) => {
   // console.log(sealSessionId);
 
   let sessionDetails = await getSessionData(sealSessionId) //, "userDetails");
-  console.log("session details")
-  console.log(sessionDetails);
+  // console.log("session details")
+  // console.log(sessionDetails);
   let kybAttributes = JSON.parse(sessionDetails).kybProfile;
   // console.log("user attributes::");
   // console.log(userAttributes);
