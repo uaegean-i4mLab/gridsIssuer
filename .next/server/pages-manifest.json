@@ -2,7 +2,5 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/kyb/registry-prompt": "pages/kyb/registry-prompt.js",
-  "/kompany/proceed": "pages/kompany/proceed.js",
-  "/kyb/validate-relation": "pages/kyb/validate-relation.js"
+  "/kyb/company-selection": "pages/kyb/company-selection.js"
 }

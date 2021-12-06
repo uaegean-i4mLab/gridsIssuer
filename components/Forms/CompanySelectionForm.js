@@ -18,94 +18,113 @@ export default function Form6(props) {
   // let nextButton =
 
   return (
-    
-      <div className={classes.container}>
-        <h6 className={classes.headTitle}>
-            Build your KYB profile
-            <MessageBox message={'In order to build your KYB profile, first provide your company’s\n' +
-            '          details below, and then click the “Retrieve Data” button. This will\n' +
-            '          result in an eIDAS eID authentication.'}/>
-
-        </h6>
-
-        <h4 className={classes.customH4}>Company Details Form</h4>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomInputNew
-              labelText="Company Name"
-              name="companyName"
-              id="companyName"
-              formControlProps={{
-                fullWidth: true,
-              }}
-              handleChange={props.handleChange}
-            />
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomInputNew
-              labelText="Company identifier"
-              name="legal_person_identifier"
-              id="legal_person_identifier"
-              formControlProps={{
-                fullWidth: true,
-              }}
-              handleChange={props.handleChange}
-            />
-          </GridItem>
-
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomInputNew
-              labelText="Company Country"
-              name="country"
-              id="country"
-              formControlProps={{
-                fullWidth: true,
-              }}
-              handleChange={props.handleChange}
-            />
-          </GridItem>
-
-        </GridContainer>
-        <h4 className={classes.customH4}>Representative Form</h4>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomInputNew
-              labelText="Name"
-              id="name"
-              name="name"
-              formControlProps={{
-                fullWidth: true,
-              }}
-              handleChange={props.handleChange}
-            />
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomInputNew
-              labelText="Surname"
-              name="surname"
-              id="surname"
-              formControlProps={{
-                fullWidth: true,
-              }}
-              handleChange={props.handleChange}
-            />
-          </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
-            <CustomInputNew
-              labelText="email"
-              name="email"
-              id="email"
-              formControlProps={{
-                fullWidth: true,
-              }}
-              handleChange={props.handleChange}
-            />
-          </GridItem>
-        </GridContainer>
-        <Button disabled={!props.isNextEnabled} color="primary" size="lg" type="submit">
-          Retrieve Data
-        </Button>
+    <div className={classes.container}>
+      <h6 className={classes.headTitle}>Build your KYB profile</h6>
+      <div
+        style={{
+          fontSize: "18px",
+          lineHeight: "32px",
+          color: "#414141",
+          fontFamily: "Open Sans,sans-serif!important",
+        }}
+      >
+        <p>
+          <p data-uw-styling-context="true">
+            In order to initiate the generation of the KYB profile of your
+            Company, you must first provide your personal details and the
+            details of the company you represent below. Then click the “Generate
+            Profile” button.
+          </p>
+        </p>
       </div>
-   
+
+      <h4 className={classes.customH4}>Company Details Form</h4>
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={6}>
+          <CustomInputNew
+            labelText="Company Name"
+            name="companyName"
+            id="companyName"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            handleChange={props.handleChange}
+            placeholder="Legal Name of the Company"
+          />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <CustomInputNew
+            labelText="Company Registration Number"
+            name="legal_person_identifier"
+            placeholder="Company Registration Identifier"
+            id="legal_person_identifier"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            handleChange={props.handleChange}
+          />
+        </GridItem>
+
+        <GridItem xs={12} sm={12} md={6}>
+          <CustomInputNew
+            labelText="Company Country"
+            name="country"
+            id="country"
+            placeholder="Company Country of Registration"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            handleChange={props.handleChange}
+          />
+        </GridItem>
+      </GridContainer>
+      <h4 className={classes.customH4}>Representative Form</h4>
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={6}>
+          <CustomInputNew
+            labelText="Name"
+            id="name"
+            name="name"
+            placeholder="Name of Legal Representative"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            handleChange={props.handleChange}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <CustomInputNew
+            labelText="Surname"
+            placeholder="Surname of Legal Representative"
+            name="surname"
+            id="surname"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            handleChange={props.handleChange}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={12}>
+          <CustomInputNew
+            labelText="email"
+            placeholder="Email of Legal Representative"
+            name="email"
+            id="email"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            handleChange={props.handleChange}
+          />
+        </GridItem>
+      </GridContainer>
+      <Button
+        disabled={!props.isNextEnabled}
+        color="primary"
+        size="lg"
+        type="submit"
+      >
+        Generate Profile
+      </Button>
+    </div>
   );
 }

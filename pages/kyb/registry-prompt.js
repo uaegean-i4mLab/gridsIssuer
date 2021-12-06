@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Head from "next/head";
 import RegistryPromptAreaComp from "../../components/InfoArea/RegistryPromptArea";
 import Cookies from "js-cookie";
+import {setUserAttributeSelection, setSessionId,setBaseUrl,setCustodianFinishURI} from "../../store.js"
 
 class Wizard extends React.Component {
   constructor(props) {
@@ -19,6 +20,15 @@ class Wizard extends React.Component {
   static async getInitialProps({ reduxStore, req }) {
     //returned value here is getting mered with the mapstatetoprops
     // mapstatetoprops overrides these values if they match
+    if (typeof window === "undefined") {
+      let baseUrl = req.baseUrl ? `/${req.baseUrl}/` : "";
+      reduxStore.dispatch(setBaseUrl(baseUrl));
+      reduxStore.dispatch(setSessionId(req.sessionId));
+      reduxStore.dispatch(setUserAttributeSelection(req.userDetails))
+      reduxStore.dispatch(setCustodianFinishURI(req.keycloakRedirectURI))
+    }
+
+
     return {
       userDetails: req.userDetails,
       selfLei: req.selfLei,

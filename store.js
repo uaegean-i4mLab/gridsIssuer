@@ -31,7 +31,7 @@ const initialState = {
   edugainRedirectUri: "",
   vcFailed: false,
   credQROffer: "",
-  
+  custodianFinishURI: "",
 };
 
 export const actionTypes = {
@@ -77,11 +77,15 @@ export const actionTypes = {
   VC_ISSUE_FAILED: "VC_ISSUE_FAILED",
 
   JOLO_VC_GENERATED: "JOLO_VC_GENERATED",
+  SET_CUSTODIAN_FINISH_URI: "SET_CUSTODIAN_FINISH_URI",
 };
 
 // REDUCERS
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case actionTypes.SET_CUSTODIAN_FINISH_URI:
+      return {...state,custodianFinishURI: action.data.custodianFinishURI}
 
     case actionTypes.JOLO_VC_GENERATED:
       return {...state, credQROffer: action.data}
@@ -724,6 +728,17 @@ export function setEdugainUriPort(uri, port) {
     });
   };
 }
+
+
+export function setCustodianFinishURI(uri) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.SET_CUSTODIAN_FINISH_URI,
+      data: { custodianFinishURI: uri },
+    });
+  };
+}
+
 
 export const initializeStore = (preloadedState = initialState) => {
   return createStore(

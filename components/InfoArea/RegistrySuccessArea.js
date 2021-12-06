@@ -10,13 +10,12 @@ import Button from "../CustomButtons/Button.js";
 import Head from "next/head";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import Link from "next/link";
 
 import styles from "styles/jss/nextjs-material-kit/components/infoStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function RegistryPromptAreaComp(props) {
+export default function RegistrySuccessAreaComp(props) {
   const classes = useStyles();
 
   let attributeRows = Object.keys(props.userDetails).flatMap(
@@ -59,16 +58,23 @@ export default function RegistryPromptAreaComp(props) {
     }
   );
 
-  // let addToRegistryDiv = (
-  //   <Button
-  //     onClick={props.addUserToRegistry}
-  //     color="primary"
-  //     size="lg"
-  //     type="submit"
-  //   >
-  //     Register
-  //   </Button>
-  // );
+  let addToRegistryDiv = !props.addedToRegistry ? (
+    <Button
+      onClick={props.addUserToRegistry}
+      color="primary"
+      size="lg"
+      type="submit"
+    >
+      Register
+    </Button>
+  ) : (
+    // <div className="row" style={{ marginBottom: "3 rem" }}>
+    //   <button onClick={props.addUserToRegistry}>Register</button>
+    // </div>
+    <div style={{ margin: "3 rem 3 rem 3 rem 3 rem" }}>
+      Thank you for registering
+    </div>
+  );
 
   return (
     <div
@@ -99,14 +105,9 @@ export default function RegistryPromptAreaComp(props) {
             className="MuiTypography-root  MuiTypography-body1"
             style={{ fontSize: "1.1429rem" }}
           >
-            Additionally, you can instantly generate a publicly Verifiable KYB
-            profile of your Company and store it in the system's public
-            registry. By opting in for this feature you will enable Regulation
-            Supervision Authorities, government bodies and other qualified
-            entities, the possibility to instantly Verify the KYB attributes of
-            your Company, thus facilitating and simplifying your dealings with
-            these parties. To do so click “Register”. To learn more about
-            Verifiable KYB data click <a href="#">here</a>
+            Your Company’s KYB profile has been successfully added to the
+            Verifiable Data Registry of the GRIDS KYB Custodian Service. An
+            email with further details will be sent to you shortly.
           </p>
         </GridItem>
         <GridItem>
@@ -123,29 +124,7 @@ export default function RegistryPromptAreaComp(props) {
           style={{ paddingTop: "32px" }}
         >
           <GridContainer>
-            <div
-              className="MuiGrid-root jss579 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-              style={{ margin: "1rem" }}
-            >
-              {/* {addToRegistryDiv} */}
-              <Link
-                href={
-                  props.baseUrl
-                    ? `${props.baseUrl}/kyb/registry-success`
-                    : "/kyb/registry-success"
-                }
-              >
-                <Button
-                  // variant="primary"
-                  // className="float-right"
-                  color="primary"
-                  size="lg"
-                  // type="submit"
-                >
-                  Register
-                </Button>
-              </Link>
-            </div>
+          
             <div
               className="MuiGrid-root jss579 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
               style={{ margin: "1rem" }}

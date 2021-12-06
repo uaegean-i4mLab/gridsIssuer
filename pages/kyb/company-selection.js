@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import LayoutNew from "../../components/LayoutNew";
+import LayoutNew from "../../components/updated/LayoutNew";
 import { connect } from "react-redux";
 import ValidateTable from "../../components/ValidateKYBComp";
 import Form1 from "../../components/Forms/Form1";
@@ -9,6 +9,7 @@ import Form3 from "../../components/Forms/Form3";
 import Form4 from "../../components/Forms/Form4";
 import Form5 from "../../components/Forms/Form5";
 import Form6 from "../../components/Forms/CompanySelectionForm";
+import CompanySelectionForm from "../../components/updated/CompanySelectionForm"
 import Head from "next/head";
 
 class QueryView extends React.Component {
@@ -68,12 +69,12 @@ class QueryView extends React.Component {
 
   render() {
     return (
-        <LayoutNew home>
+        <LayoutNew home activeStep={0} >
           <Head>
             <title>Grids</title>
           </Head>
           <form action="/start-login" method="post">
-            <Form6 handleChange={this.handleChange} isNextEnabled={this.state.isNextEnabled}/>
+            <CompanySelectionForm handleChange={this.handleChange} isNextEnabled={this.state.isNextEnabled}/>
           </form>
           {/*<label className="row">
             Company Name:

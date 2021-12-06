@@ -27,6 +27,7 @@ export default function CustomInput(props) {
         inputRootCustomClasses,
         success,
         name,
+        placeholder,
     } = props;
 
     const labelClasses = classNames({
@@ -77,6 +78,7 @@ export default function CustomInput(props) {
                 }}
                 id={id}
                 name={name}
+                placeholder={placeholder}
                 onChange={props.handleChange}
                 {...inputProps}
             />

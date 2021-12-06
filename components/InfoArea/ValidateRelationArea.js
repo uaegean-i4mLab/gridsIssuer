@@ -69,14 +69,13 @@ export default function ValidateRelationArea(props) {
             className="MuiTypography-root  MuiTypography-body1"
             style={{ fontSize: "1.1429rem" }}
           >
-            Before proceeding, please validate your relationship with the
-            declared company. To do so, click the Sign button. This will result
-            in the signing a qualified One Time Signature (issued using your
-            eIDAS eID profile) a document validating your relationship with the
-            declared document. To review the document please click{" "}
-            <a href="#" onClick={props.showDocument}>
-              here
-            </a>
+            Your KYB profile is almost ready. 
+            To continue, please confirm that you, 
+            <b>{props.userDetails.given_name}</b> <b>{props.userDetails.family_name}</b>, 
+            born at <b>{props.userDetails.birthdate} </b>
+            and assigned the eIDAS eID personal Identifier <b>{props.userDetails.personal_number}</b>, 
+            are affiliated with the company <b>"{props.companyName}"</b>, 
+            with the company identifier: <b>"{props.companyIdentifier}" </b>
           </p>
         </GridItem>
         <GridItem>{documentDisplayDiv}</GridItem>
@@ -87,7 +86,7 @@ export default function ValidateRelationArea(props) {
             size="lg"
             type="submit"
           >
-            Sign Declaration
+            I Confirm
           </Button>
         </GridItem>
       </GridContainer>
