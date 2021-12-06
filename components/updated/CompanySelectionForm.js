@@ -96,14 +96,49 @@ export default function CompanySelectionForm(props) {
             labelId="demo-simple-select-label"
             name="country"
             id="country"
-            placeholder="Company Country of Registration"
-            label="Age"
+            // placeholder="Company Country of Registration"
+            // label="Age"
             onChange={props.handleChange}
             variant="filled"
           >
-            <MenuItem value={"UK"}>UK</MenuItem>
-            <MenuItem value={"Greece"}>Greece</MenuItem>
-            <MenuItem value={"Germany"}>Germany</MenuItem>
+            <MenuItem value={"AT"}>Austria</MenuItem>
+
+            <MenuItem value={"BE"}>Belgium</MenuItem>
+            <MenuItem value={"BG"}>Bulgaria</MenuItem>
+            <MenuItem value={"HR"}>Croatia</MenuItem>
+            <MenuItem value={"CY"}>Cyprus</MenuItem>
+
+            <MenuItem value={"CZ"}>Czechia</MenuItem>
+
+            <MenuItem value={"DK"}>Denmark</MenuItem>
+            <MenuItem value={"EE"}>Estonia</MenuItem>
+            <MenuItem value={"FI"}>Finland</MenuItem>
+
+            <MenuItem value={"FR"}>France</MenuItem>
+
+            <MenuItem value={"DE"}>Germany</MenuItem>
+            <MenuItem value={"GR"}>Greece</MenuItem>
+            <MenuItem value={"HU"}>Hungary</MenuItem>
+
+            <MenuItem value={"IE"}>Ireland</MenuItem>
+            <MenuItem value={"IT"}>Italy</MenuItem>
+
+            <MenuItem value={"LV"}>Latvia</MenuItem>
+            <MenuItem value={"LU"}>Luxembourg</MenuItem>
+            <MenuItem value={"LT"}>Lithuania</MenuItem>
+            <MenuItem value={"MT"}>Malta</MenuItem>
+            <MenuItem value={"NL"}>Netherlands</MenuItem>
+
+            <MenuItem value={"PL"}>Poland</MenuItem>
+            <MenuItem value={"PT"}>Portugal</MenuItem>
+            <MenuItem value={"RO"}>Romania</MenuItem>
+
+            <MenuItem value={"ES"}>Spain</MenuItem>
+            <MenuItem value={"SK"}>Slovakia</MenuItem>
+
+            <MenuItem value={"SI"}>Slovenia</MenuItem>
+            <MenuItem value={"SE"}>Sweden</MenuItem>
+            <MenuItem value={"UK"}>United Kingdom</MenuItem>
           </Select>
         </FormControl>
 
@@ -122,8 +157,8 @@ export default function CompanySelectionForm(props) {
               onChange={props.handleChange}
               fullWidth
               id="lname"
-            name="lname"
-            placeholder="Name of Legal Representative"
+              name="lname"
+              placeholder="Name of Legal Representative"
               label="Name"
               variant="filled"
               sx={{ mr: 4 }}
@@ -164,7 +199,12 @@ export default function CompanySelectionForm(props) {
         </Button>
         <Box sx={{ flex: "1 1 auto" }} />
 
-        <Button variant="contained" size="large" type="submit"   disabled={!props.isNextEnabled}>
+        <Button
+          variant="contained"
+          size="large"
+          type="submit"
+          disabled={!props.isNextEnabled}
+        >
           Generate Profile
         </Button>
       </Box>
