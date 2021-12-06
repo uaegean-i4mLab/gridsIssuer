@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/kyb/company-selection": "pages/kyb/company-selection.js"
+  "/": "pages/index.js",
+  "/kyb/company-selection": "pages/kyb/company-selection.js",
+  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js"
 }

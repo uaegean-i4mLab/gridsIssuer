@@ -9,10 +9,10 @@ import Form3 from "../../components/Forms/Form3";
 import Form4 from "../../components/Forms/Form4";
 import Form5 from "../../components/Forms/Form5";
 import Form6 from "../../components/Forms/CompanySelectionForm";
-import CompanySelectionForm from "../../components/updated/CompanySelectionForm"
+import CompanySelectionForm from "../../components/updated/CompanySelectionForm";
 import Head from "next/head";
 
-class QueryView extends React.Component {
+class CompanySelectionWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,7 +42,7 @@ class QueryView extends React.Component {
       [name]: value,
     });
     if (
-      this.stringNotEmpty(this.state.country)  &&
+      this.stringNotEmpty(this.state.country) &&
       this.stringNotEmpty(this.state.email) &&
       (this.stringNotEmpty(this.state.companyName) ||
         this.stringNotEmpty(this.state.legal_person_identifier))
@@ -69,14 +69,18 @@ class QueryView extends React.Component {
 
   render() {
     return (
-        <LayoutNew home activeStep={0} >
-          <Head>
-            <title>Grids</title>
-          </Head>
-          <form action="/start-login" method="post">
-            <CompanySelectionForm handleChange={this.handleChange} isNextEnabled={this.state.isNextEnabled}/>
-          </form>
-          {/*<label className="row">
+      <LayoutNew home activeStep={0}>
+        <Head>
+          <title>Grids</title>
+        </Head>
+        <form action="/start-login" method="post">
+          <CompanySelectionForm
+            activeStep={0}
+            handleChange={this.handleChange}
+            isNextEnabled={this.state.isNextEnabled}
+          />
+        </form>
+        {/*<label className="row">
             Company Name:
             <input
               type="text"
@@ -118,7 +122,7 @@ class QueryView extends React.Component {
             <input type="submit" disabled={!this.state.isNextEnabled} />
 
           </div>*/}
-        </LayoutNew>
+      </LayoutNew>
     );
   }
 }
@@ -132,4 +136,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return {};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(QueryView);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CompanySelectionWrapper);
