@@ -28,6 +28,11 @@
       "static/chunks/main.js",
       "static/chunks/webpack.js",
       "static/chunks/pages/kyb/company-selection.js"
+    ],
+    "/kyb/registry-success": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/kyb/registry-success.js"
     ]
   },
   "ampFirstPages": []

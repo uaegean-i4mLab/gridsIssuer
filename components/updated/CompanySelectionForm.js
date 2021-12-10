@@ -58,15 +58,10 @@ export default function CompanySelectionForm(props) {
     <React.Fragment>
       <>
         <Typography variant="h5" sx={{ mt: 6, mb: 4 }}>
-          Company Details Form
-          <Tooltip title={longText}>
-            <IconButton>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
+          Company Information
         </Typography>
         <Grid container spacing={4}>
-          <Grid item xs={6}>
+          <Grid item sm={6} xs={12}>
             <TextField
               fullWidth
               name="companyName"
@@ -91,7 +86,9 @@ export default function CompanySelectionForm(props) {
           </Grid>
         </Grid>
         <FormControl fullWidth sx={{ mt: 4 }}>
-          <InputLabel id="demo-simple-select-label">Country</InputLabel>
+          <InputLabel id="demo-simple-select-label">
+            Country of Company Registration
+          </InputLabel>
           <Select
             labelId="demo-simple-select-label"
             name="country"
@@ -143,16 +140,11 @@ export default function CompanySelectionForm(props) {
         </FormControl>
 
         <Typography variant="h5" sx={{ mt: 6, mb: 4 }}>
-          Representative Form
-          <Tooltip title={longText}>
-            <IconButton>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
+          Company Representative Information
         </Typography>
 
         <Grid container spacing={4}>
-          <Grid item xs={6}>
+        <Grid item sm={6} xs={12}>
             <TextField
               onChange={props.handleChange}
               fullWidth
@@ -164,7 +156,7 @@ export default function CompanySelectionForm(props) {
               sx={{ mr: 4 }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item sm={6} xs={12}>
             <TextField
               fullWidth
               placeholder="Surname of Legal Representative"
@@ -197,6 +189,7 @@ export default function CompanySelectionForm(props) {
         >
           Back
         </Button>
+        
         <Box sx={{ flex: "1 1 auto" }} />
 
         <Button

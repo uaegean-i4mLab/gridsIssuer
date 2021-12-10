@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
-import LayoutNew from "../../components/LayoutNew";
+import LayoutNew from "../../components/updated/LayoutNew";
 import { connect } from "react-redux";
 import Head from "next/head";
-import RegistrySuccessAreaComp from "../../components/InfoArea/RegistrySuccessArea";
+import RegistrySuccessAreaComp from "../../components/updated/RegistrySuccessArea";
 import Cookies from "js-cookie";
 
 class Wizard extends React.Component {
@@ -68,15 +68,14 @@ class Wizard extends React.Component {
 
   render() {
     return (
-      <LayoutNew home>
+      <LayoutNew home activeStep={3}>
         <Head>
           <title>Grids</title>
         </Head>
         <RegistrySuccessAreaComp
           userDetails={this.props.userDetails}
-          proceedToKeycloak={this.proceedToKeycloak}
-          addToRegistryDiv={this.state.addedToRegistry}
-          addUserToRegistry={this.addUserToRegistry}
+          handleNext={this.proceedToKeycloak}
+          activeStep={3}
         />
       </LayoutNew>
     );

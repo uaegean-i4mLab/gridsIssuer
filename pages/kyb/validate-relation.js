@@ -1,5 +1,5 @@
 import React from "react";
-import ValidateRelationArea from "../../components/InfoArea/ValidateRelationArea";
+import ValidateRelationArea from "../../components/updated/ValidateRelationArea";
 import { connect } from "react-redux";
 
 class ValidateRelation extends React.Component {
@@ -51,6 +51,8 @@ class ValidateRelation extends React.Component {
         companyName={this.props.companyName}
         legalPersonIdentifier={this.props.legalPersonIdentifier}
         error={this.props.error}
+        activeStep={1}
+        handleNext={this.signAndProceed}
       />
     );
   }

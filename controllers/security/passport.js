@@ -35,7 +35,7 @@ const getConfiguredPassport = async (
 ) => {
   let _issuer_url = process.env.ISSUER_URL
     ? process.env.ISSUER_URL
-    : "https://oci-eu-grids1.kompany.com:8180/auth/realms/grids"//"https://vm.project-grids.eu:8180/auth/realms/grids";
+    : "https://vm.project-grids.eu:8180/auth/realms/grids"//"https://oci-eu-grids1.kompany.com:8180/auth/realms/grids"//"https://vm.project-grids.eu:8180/auth/realms/grids";
   // let _client_id = process.env.OIDC_CLIENT_ID?process.env.OIDC_CLIENT_ID:"test"
   // let _client_secret = process.env.OIDC_CLIENT_SECRET?process.env.OIDC_CLIENT_SECRET:"5814f193-2ef3-45ee-967c-e4e647d9bc48"
 
@@ -75,7 +75,7 @@ const getConfiguredPassport = async (
 
   let _user_info_request = process.env.USER_INFO
     ? process.env.USER_INFO
-    : "oci-eu-grids1.kompany.com"//"vm.project-grids.eu";
+    : "vm.project-grids.eu" //"oci-eu-grids1.kompany.com"//"vm.project-grids.eu";
   let _user_info_port = process.env.USER_INFO_PORT
     ? process.env.USER_INFO_PORT
     : "8180";
@@ -111,12 +111,12 @@ const getConfiguredPassport = async (
     });
 
     const options = {
-      hostname: "oci-eu-grids1.kompany.com",//"vm.project-grids.eu",
+      hostname: "vm.project-grids.eu",// "oci-eu-grids1.kompany.com",//"vm.project-grids.eu",
       port: 8180,
       path: "/auth/realms/grids/clients-registrations/openid-connect",
       method: "POST",
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzOTFlZDkzMy1mNTE2LTQzYmUtYThkNy00MDhhZGQ2YjlhYWMifQ.eyJleHAiOjAsImlhdCI6MTYzODc4NjIzOCwianRpIjoiYThhM2EyNjctMzA2Ny00ZmUzLTg2MDktODFhNjk0YmViZGRhIiwiaXNzIjoiaHR0cHM6Ly9vY2ktZXUtZ3JpZHMxLmtvbXBhbnkuY29tOjgxODAvYXV0aC9yZWFsbXMvZ3JpZHMiLCJhdWQiOiJodHRwczovL29jaS1ldS1ncmlkczEua29tcGFueS5jb206ODE4MC9hdXRoL3JlYWxtcy9ncmlkcyIsInR5cCI6IkluaXRpYWxBY2Nlc3NUb2tlbiJ9.DNMLd7AdNHyZ7OomRIPJvObthU2W0dbxWK5RILZUWEk`,//`Bearer eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3NDdiMzRmNy02YmZjLTRhODgtODgxYS0wYjlhNWQ3NjZmOTgifQ.eyJleHAiOjAsImlhdCI6MTYzNDgxNzI1MiwianRpIjoiYzNiNjZiNjEtOTg5Yy00ZmY5LWJlNGQtNTdmZmJiMDIxODM1IiwiaXNzIjoiaHR0cHM6Ly92bS5wcm9qZWN0LWdyaWRzLmV1OjgxODAvYXV0aC9yZWFsbXMvZ3JpZHMiLCJhdWQiOiJodHRwczovL3ZtLnByb2plY3QtZ3JpZHMuZXU6ODE4MC9hdXRoL3JlYWxtcy9ncmlkcyIsInR5cCI6IkluaXRpYWxBY2Nlc3NUb2tlbiJ9.-0XGFJobxqzvtLeJby9geLLOptj8ofFUwJQpknEqpyY`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3NDdiMzRmNy02YmZjLTRhODgtODgxYS0wYjlhNWQ3NjZmOTgifQ.eyJleHAiOjAsImlhdCI6MTYzNDgxNzI1MiwianRpIjoiYzNiNjZiNjEtOTg5Yy00ZmY5LWJlNGQtNTdmZmJiMDIxODM1IiwiaXNzIjoiaHR0cHM6Ly92bS5wcm9qZWN0LWdyaWRzLmV1OjgxODAvYXV0aC9yZWFsbXMvZ3JpZHMiLCJhdWQiOiJodHRwczovL3ZtLnByb2plY3QtZ3JpZHMuZXU6ODE4MC9hdXRoL3JlYWxtcy9ncmlkcyIsInR5cCI6IkluaXRpYWxBY2Nlc3NUb2tlbiJ9.-0XGFJobxqzvtLeJby9geLLOptj8ofFUwJQpknEqpyY`, //`Bearer eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzOTFlZDkzMy1mNTE2LTQzYmUtYThkNy00MDhhZGQ2YjlhYWMifQ.eyJleHAiOjAsImlhdCI6MTYzODc4NjIzOCwianRpIjoiYThhM2EyNjctMzA2Ny00ZmUzLTg2MDktODFhNjk0YmViZGRhIiwiaXNzIjoiaHR0cHM6Ly9vY2ktZXUtZ3JpZHMxLmtvbXBhbnkuY29tOjgxODAvYXV0aC9yZWFsbXMvZ3JpZHMiLCJhdWQiOiJodHRwczovL29jaS1ldS1ncmlkczEua29tcGFueS5jb206ODE4MC9hdXRoL3JlYWxtcy9ncmlkcyIsInR5cCI6IkluaXRpYWxBY2Nlc3NUb2tlbiJ9.DNMLd7AdNHyZ7OomRIPJvObthU2W0dbxWK5RILZUWEk`,//`Bearer eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3NDdiMzRmNy02YmZjLTRhODgtODgxYS0wYjlhNWQ3NjZmOTgifQ.eyJleHAiOjAsImlhdCI6MTYzNDgxNzI1MiwianRpIjoiYzNiNjZiNjEtOTg5Yy00ZmY5LWJlNGQtNTdmZmJiMDIxODM1IiwiaXNzIjoiaHR0cHM6Ly92bS5wcm9qZWN0LWdyaWRzLmV1OjgxODAvYXV0aC9yZWFsbXMvZ3JpZHMiLCJhdWQiOiJodHRwczovL3ZtLnByb2plY3QtZ3JpZHMuZXU6ODE4MC9hdXRoL3JlYWxtcy9ncmlkcyIsInR5cCI6IkluaXRpYWxBY2Nlc3NUb2tlbiJ9.-0XGFJobxqzvtLeJby9geLLOptj8ofFUwJQpknEqpyY`,
         "Content-Type": "application/json",
         "Content-Length": data.length,
       },

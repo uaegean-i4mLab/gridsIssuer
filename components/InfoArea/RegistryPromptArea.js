@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import LayoutNew from "../LayoutNew";
 import Button from "../CustomButtons/Button.js";
 import Head from "next/head";
 import GridContainer from "components/Grid/GridContainer.js";
