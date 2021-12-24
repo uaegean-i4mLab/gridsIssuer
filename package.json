@@ -19,6 +19,7 @@
     "@jolocom/sdk-storage-typeorm": "^4.2.0",
     "@jorgeferrero/stream-to-buffer": "^2.0.6",
     "@mui/icons-material": "^5.2.0",
+    "@mui/material": "^5.2.2",
     "@zeit/next-bundle-analyzer": "^0.1.2",
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.21.1",
@@ -101,7 +102,6 @@
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.11.4",
-    "@mui/material": "^5.0.6",
     "mocha": "^8.2.0",
     "nodemon": "^2.0.6",
     "prop-types": "^15.7.2"
@@ -110,7 +110,6 @@
   "exports": {
     ".": "./grids-dc-server.js",
     "./jsx-dev-runtime": "./jsx-dev-runtime.js",
-    "./jsx-runtime": "./jsx-runtime.js",
-    "./": "./"
+    "./jsx-runtime": "./jsx-runtime.js"
   }
 }

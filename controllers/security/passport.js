@@ -15,6 +15,7 @@ const { JWK, JWE } = require("node-jose");
 import { defaultClaims } from "../../config/defaultOidcClaims";
 import { getSessionData, setOrUpdateSessionData } from "../../services/redis";
 import { getUserByeIDASIdenitifier } from "../../repository/kybRepo";
+import { v4 as uuidv4 } from "uuid";
 
 // Part 3, create a JWKS
 const keyStore = jose.JWK.createKeyStore();
@@ -35,7 +36,7 @@ const getConfiguredPassport = async (
 ) => {
   let _issuer_url = process.env.ISSUER_URL
     ? process.env.ISSUER_URL
-    : "https://vm.project-grids.eu:8180/auth/realms/grids"//"https://oci-eu-grids1.kompany.com:8180/auth/realms/grids"//"https://vm.project-grids.eu:8180/auth/realms/grids";
+    : "https://vm.project-grids.eu:8180/auth/realms/grids"; //"https://oci-eu-grids1.kompany.com:8180/auth/realms/grids"//"https://vm.project-grids.eu:8180/auth/realms/grids";
   // let _client_id = process.env.OIDC_CLIENT_ID?process.env.OIDC_CLIENT_ID:"test"
   // let _client_secret = process.env.OIDC_CLIENT_SECRET?process.env.OIDC_CLIENT_SECRET:"5814f193-2ef3-45ee-967c-e4e647d9bc48"
 
@@ -75,7 +76,7 @@ const getConfiguredPassport = async (
 
   let _user_info_request = process.env.USER_INFO
     ? process.env.USER_INFO
-    : "vm.project-grids.eu" //"oci-eu-grids1.kompany.com"//"vm.project-grids.eu";
+    : "vm.project-grids.eu"; //"oci-eu-grids1.kompany.com"//"vm.project-grids.eu";
   let _user_info_port = process.env.USER_INFO_PORT
     ? process.env.USER_INFO_PORT
     : "8180";
@@ -111,7 +112,7 @@ const getConfiguredPassport = async (
     });
 
     const options = {
-      hostname: "vm.project-grids.eu",// "oci-eu-grids1.kompany.com",//"vm.project-grids.eu",
+      hostname: "vm.project-grids.eu", // "oci-eu-grids1.kompany.com",//"vm.project-grids.eu",
       port: 8180,
       path: "/auth/realms/grids/clients-registrations/openid-connect",
       method: "POST",
@@ -147,13 +148,41 @@ const getConfiguredPassport = async (
   router.use(passport.initialize());
   router.use(passport.session());
   // Part 2, configure authentication endpoints
-  router.get("/", passport.authenticate("curity")); //listens to /login
-  router.post("/", passport.authenticate("curity")); //listens to /login
+  router.get(
+    "/", passport.authenticate("curity")); //listens to /login
+  router.post(
+    "/", //passport.authenticate("curity")); //listens to /login
+    (req, res, next) => {
+      console.log("3 333333333333333 passport.js")
+      console.log(req.query)
+
+      const sessionId  = req.query?req.query.sessionId:undefined;
+      // console.log(" PASSPORT JS !!!!!!!!!!!REQ@@@@@@!!!!!!");
+     
+      let returnTo = sessionId ? sessionId : uuidv4();
+      // console.log("NEW STATE FOUND!!!!!")
+      // console.log(returnTo);
+
+      const state = returnTo
+        // ? Buffer.from(JSON.stringify({ returnTo })).toString("base64")
+        // : undefined;
+      console.log("4 4444444444 setting state to:: ")
+      console.log(state)
+      const authenticator = passport.authenticate("curity", {
+        scope: ["openid profile"],
+        state: state,
+      });
+      authenticator(req, res, next);
+    }
+  );
   router.get(
     "/callback",
     async (req, res, next) => {
-      // console.log(req)
-      // console.log("***************")
+      // console.log(
+      //   " PASSPORT JS *******************REQ****************************"
+      // );
+      // console.log(req.query);
+      // console.log("***************");
       // console.log(req.sessionStore.sessions)
       // console.log(req.sessionStore.sessions)
       // console.log(req.sessionStore)
@@ -168,50 +197,45 @@ const getConfiguredPassport = async (
     passport.authenticate("curity", { failureRedirect: "/login" }), //listens to /login/callback
     async (req, res) => {
       console.log("passport.js:: will now redirect to the view");
-      // console.log(req.user);
-      // read cookies
-      // console.log("cookies!!!!")
-      // console.log(req.cookies);
-      // console.log("*************")
-      let sessionId = req.cookies.sessionId;
-      // console.log(`sessionId: ${sessionId}`)
-      // console.log("PASSPORT.JS REQ.USEr");
-      // console.log(req.user);
-
+      let sessionId = req.query.state
+      
       await setOrUpdateSessionData(sessionId, "userDetails", req.user);
       let redirect_uri =
-        req.cookies.kyb === "false"
-          ? "/validate-relation"
-          : `/vc/issue/kybResponse?sessionId=${req.cookies.kyb}`;
+        // req.cookies.kyb === "true"
+        //   ? `/vc/issue/kybResponse?sessionId=${req.cookies.kyb}`
+          // : 
+          `/validate-relation?sessionId=${sessionId}`
 
       let kompanySessionId = req.cookies.kompanySessionId
-      if(kompanySessionId){
-        console.log("passport.js will go to kompany redirect for with user details (req.user):")
-        console.log(req.user)
-        redirect_uri = `/kompany/proceed?sessionId=${sessionId}`
+      if (kompanySessionId) {
+        console.log(
+          "passport.js will go to kompany redirect for with user details (req.user):"
+        );
+        console.log(req.user);
+        redirect_uri = `/kompany/proceed?sessionId=${sessionId}`;
       }
 
-      if (req.cookies.kyb !== "false") {
-        let personalIdentifier = req.user.personal_number;
-        console.log(
-          "passport.js passport.authenticate :: user with eIDAS " +
-            personalIdentifier
-        );
-        //TODO call the registry for user data
-        //if not found then error
-        let userFound = await getUserByeIDASIdenitifier(personalIdentifier);
-        if (!userFound) {
-          console.log(
-            "no user found in mongo. This means that the user is not registerd so will display error"
-          );
-          redirect_uri = "/userNotFound";
-        } else {
-          console.log(
-            `founda mathcing user in the public registry for ${personalIdentifier} will add to session ${sessionId}`
-          );
-          setOrUpdateSessionData(sessionId, "kybProfile", userFound);
-        }
-      }
+      // if (req.cookies.kyb === "true") {
+      //   let personalIdentifier = req.user.personal_number;
+      //   console.log(
+      //     "passport.js passport.authenticate :: user with eIDAS " +
+      //       personalIdentifier
+      //   );
+      //   //TODO call the registry for user data
+      //   //if not found then error
+      //   let userFound = await getUserByeIDASIdenitifier(personalIdentifier);
+      //   if (!userFound) {
+      //     console.log(
+      //       "no user found in mongo. This means that the user is not registerd so will display error"
+      //     );
+      //     redirect_uri = "/userNotFound";
+      //   } else {
+      //     console.log(
+      //       `founda mathcing user in the public registry for ${personalIdentifier} will add to session ${sessionId}`
+      //     );
+      //     setOrUpdateSessionData(sessionId, "kybProfile", userFound);
+      //   }
+      // }
 
       console.log(`passport.js:: will redirect to ${redirect_uri}`);
       res.redirect(redirect_uri);
@@ -380,7 +404,7 @@ async function sendToken(accessToken, endpoint) {
               const body = Buffer.from(decrypted.plaintext);
               const resJson = JSON.parse(body.toString());
               console.log("******* DECRYPTED DP RESPONSE**************");
-              console.log(resJson)
+              console.log(resJson);
               resJson.verified_claims.verified_claims.forEach((element) => {
                 console.log("verified claim found");
                 console.log(element);
@@ -391,12 +415,14 @@ async function sendToken(accessToken, endpoint) {
               // add decrypted data to database
               //
               // repo.addDataToDb(resJson.verified_claims.verified_claims[0].claims);
-              if(resJson.verified_claims.verified_claims.length > 0){
+              if (resJson.verified_claims.verified_claims.length > 0) {
                 resolve(resJson.verified_claims.verified_claims[0].claims);
-              }else{
-                reject("No Company data returned from the Data Provider " + resJson.iss)
+              } else {
+                reject(
+                  "No Company data returned from the Data Provider " +
+                    resJson.iss
+                );
               }
-              
             }
           }
         });

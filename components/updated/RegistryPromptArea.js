@@ -39,8 +39,8 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 
 //Icons
-import InfoIcon from "@mui/icons-material/Info";
-import Tooltip from "@mui/material/Tooltip";
+import InfoIcon from '@mui/icons-material/Info';
+import Tooltip from '@mui/material/Tooltip';
 
 //Table
 import Table from "@mui/material/Table";
@@ -52,188 +52,177 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
 
-function createData(variabl, value) {
-  return { variabl, value };
+import Divider from "@mui/material/Divider";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+
+function createData(variabl, value, info) {
+  return { variabl, value, info };
+}
+
+function mapName(name) {
+  switch (name) {
+    case "country":
+      return "Company Country of Registration";
+      break;
+
+    case "lei":
+      return "LEI";
+      break;
+    case "address":
+      return "Company Address";
+      break;
+    case "birthdate":
+      return "Date of Birth";
+      break;
+    case "trading_status":
+      return "Trading Status";
+      break;
+    case "legal_name":
+      return "Legal Company Name";
+      break;
+    case "sub_jurisdiction":
+      return "Sub Jurisdiction";
+      break;
+    case "sic":
+      return "SIC";
+      break;
+    case "vat_registration":
+      return "VAT Registration Number";
+      break;
+    case "legal_person_identifier":
+      return "Company Identifier";
+      break;
+    case "business_role":
+      return "Business Role";
+      break;
+    case "given_name":
+      return "First Name";
+      break;
+    case "family_name":
+      return "Last Name";
+      break;
+    case "personal_number":
+      return "eIDAS eID Person Identifier";
+      break;
+  }
+}
+
+function getRowByAttribute(name, rowArray) {
+  return rowArray.filter((entry) => {
+    return entry.variabl === name;
+  })[0];
 }
 
 export default function RegistryPromptAreaComp(props) {
-  const rows = [];
+  const companyRows = [];
   const rowsPersonal = [];
   let personalAttributes = [
     "given_name",
     "family_name",
     "personal_number",
-    "brithdate",
+    "birthdate",
     "business_role",
   ];
   Object.keys(props.userDetails).forEach((attributeName) => {
+    let info = undefined;
+    switch (attributeName) {
+      case "legal_person_identifier":
+        info = "The Company Business Identifier";
+        break;
+      case "Company Country of Registration":
+        info = "The Company Jurisdiction Country";
+        break;
+      case "sub_jurisdiction":
+        info = "The sub-jurisdiction that the Company is registered at";
+        break;
+      case "trading_status":
+        info = "The trading status of the company (live, dormant etc.)";
+        break;
+      case "sic":
+        info = "The Standard Industrial Classification Code of the Company";
+        break;
+      case "lei":
+        info = "The Legal Entity Identifier of the Company";
+        break;
+      case "business_role":
+        info =
+          "The business role of the Legal Representative within the Company (example: Managing Director, Director etc.)";
+        break;
+      default:
+        console.log(`was looking ofr ${attributeName}`)
+        break; 
+    }
     if (personalAttributes.indexOf(attributeName) >= 0) {
       rowsPersonal.push(
-        createData(attributeName, props.userDetails[attributeName])
+        createData(mapName(attributeName), props.userDetails[attributeName],info)
       );
     } else {
-      rows.push(createData(attributeName, props.userDetails[attributeName]));
+      companyRows.push(
+        createData(mapName(attributeName), props.userDetails[attributeName],info)
+      );
     }
   });
 
-  // let attributeRows = Object.keys(props.userDetails).flatMap(
-  //   (attributeName) => {
-  //     return (
-  //       <GridItem>
-  //         <div
-  //           className="MuiGrid-root MuiGrid-container MuiGrid-item"
-  //           key={attributeName}
-  //         >
-  //           <div
-  //             className="MuiGrid-root jss579 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6"
-  //             style={{ fontWeight: "500" }}
-  //           >
-  //             {attributeName}
-  //           </div>
-  //           <div
-  //             className="MuiGrid-root
-  //             MuiGrid-item
-  //             MuiGrid-grid-xs-12
-  //             MuiGrid-grid-sm-6"
-  //           >
-  //             {props.userDetails[attributeName]}
-  //           </div>
-  //         </div>
-  //         <GridItem>
-  //           <hr
-  //             className="MuiDivider-root"
-  //             style={{
-  //               border: "none",
-  //               height: "1px",
-  //               margin: "0",
-  //               flexShrink: "0",
-  //               backgroundColor: "rgba(0, 0, 0, 0.12)",
-  //             }}
-  //           />
-  //         </GridItem>
-  //       </GridItem>
-  //     );
-  //   }
-  // );
+  let shortePersonalRow = [];
+  shortePersonalRow.push(getRowByAttribute("First Name", rowsPersonal));
+  shortePersonalRow.push(getRowByAttribute("Last Name", rowsPersonal));
+  shortePersonalRow.push(
+    getRowByAttribute("eIDAS eID Person Identifier", rowsPersonal)
+  );
+  shortePersonalRow.push(getRowByAttribute("Date of Birth", rowsPersonal));
+  shortePersonalRow.push(getRowByAttribute("Business Role", rowsPersonal));
+
+  let shortedCompanyRows = [];
+  shortedCompanyRows.push(getRowByAttribute("Legal Company Name", companyRows));
+  shortedCompanyRows.push(getRowByAttribute("Company Identifier", companyRows));
+  // shortedCompanyRows.push(getRowByAttribute("Company Country of Registration", companyRows));
+  shortedCompanyRows.push(getRowByAttribute("Sub Jurisdiction", companyRows));
+  shortedCompanyRows.push(
+    getRowByAttribute("VAT Registration Number", companyRows)
+  );
+  shortedCompanyRows.push(getRowByAttribute("Trading Status", companyRows));
+  shortedCompanyRows.push(getRowByAttribute("SIC", companyRows));
+  shortedCompanyRows.push(getRowByAttribute("LEI", companyRows));
+  shortedCompanyRows.push(getRowByAttribute("Company Address", companyRows));
+
+  console.log(companyRows);
+  console.log(shortedCompanyRows);
 
   return (
-    // <div
-    //   className={classes.container}
-    //   style={{
-    //     color: "rgba(0, 0, 0, 0.87)",
-    //     margin: 0,
-    //     fontSize: "1rem",
-    //     fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
-    //     fontWeight: 400,
-    //     lineHeight: "1.43",
-    //     letterSpacing: "0.01071em",
-    //   }}
-    // >
-    //   <h1 className={classes.headTitle}>Review your KYB Profile</h1>
-    //   <GridContainer>
-    //     <GridItem xs={12} sm={12} md={12}>
-    //       <p
-    //         className="MuiTypography-root  MuiTypography-body1"
-    //         style={{ fontSize: "1.1429rem" }}
-    //       >
-    //         Your KYB Profile has been generated successfully. In order to
-    //         redirect back to the service that initiated the KYB check please
-    //         review the correctness of the generated profile. If you are certain
-    //         that the information is accurate click “Finish”.
-    //       </p>
-    //       <p
-    //         className="MuiTypography-root  MuiTypography-body1"
-    //         style={{ fontSize: "1.1429rem" }}
-    //       >
-    //         Additionally, you can instantly generate a publicly Verifiable KYB
-    //         profile of your Company and store it in the system's public
-    //         registry. By opting in for this feature you will enable Regulation
-    //         Supervision Authorities, government bodies and other qualified
-    //         entities, the possibility to instantly Verify the KYB attributes of
-    //         your Company, thus facilitating and simplifying your dealings with
-    //         these parties. To do so click “Register”. To learn more about
-    //         Verifiable KYB data click <a href="#">here</a>
-    //       </p>
-    //     </GridItem>
-    //     <GridItem>
-    //       <h2 className={classes.customH4}>Details</h2>
-    //     </GridItem>
-    //     <GridItem>
-    //       <div className="MuiGrid-root jss578 MuiGrid-container">
-    //         {attributeRows}
-    //       </div>
-    //     </GridItem>
-
-    //     <div
-    //       className="MuiBox-root jss593 jss541"
-    //       style={{ paddingTop: "32px" }}
-    //     >
-    //       <GridContainer>
-    //         <div
-    //           className="MuiGrid-root jss579 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-    //           style={{ margin: "1rem" }}
-    //         >
-    //           {/* {addToRegistryDiv} */}
-    //           <Link
-    //             href={
-    //               props.baseUrl
-    //                 ? `${props.baseUrl}/kyb/registry-success`
-    //                 : "/kyb/registry-success"
-    //             }
-    //           >
-    //             <Button
-    //               // variant="primary"
-    //               // className="float-right"
-    //               color="primary"
-    //               size="lg"
-    //               // type="submit"
-    //             >
-    //               Register
-    //             </Button>
-    //           </Link>
-    //         </div>
-    //         <div
-    //           className="MuiGrid-root jss579 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-    //           style={{ margin: "1rem" }}
-    //         >
-    //           <Button
-    //             onClick={props.proceedToKeycloak}
-    //             color="primary"
-    //             size="lg"
-    //             type="submit"
-    //           >
-    //             Finish
-    //           </Button>
-    //         </div>
-    //       </GridContainer>
-    //     </div>
-    //   </GridContainer>
-    // </div>
     <React.Fragment>
       <>
-        <Typography variant="h5" sx={{ mt: 6, mb: 4 }}>
+        <Typography variant="h5" sx={{ mt: 6, mb: 6 }}>
           Company KYB profile retrieved
         </Typography>
-        <Typography variant="h6" sx={{ mt: 6, mb: 4, fontWeight: "bold" }}>
+        <Divider sx={{ borderColor: "#ff9900" }}></Divider>
+        <Typography
+          variant="h6"
+          sx={{ mt: 2, mb: 4, fontWeight: "bold", color: "#ff9900" }}
+        >
           Company
         </Typography>
-
-        <TableContainer>
-          <Table aria-label="simple table">
+        <TableContainer sx={{ mb: 6 }}>
+          <Table aria-label="simple table" size="small">
             <TableBody>
-              {rows.map((row) => (
+              {shortedCompanyRows.map((row) => (
                 <TableRow
-                  key={row.name}
-                  sx={{
-                    "&:last-child td, &:last-child th": {
-                      border: 0,
-                    },
-                  }}
+                  key={row.variabl}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     <Box fontWeight="fontWeightBold" display="inline">
                       {row.variabl}
                     </Box>
+                    {row.info != null && (
+                      <>
+                        <Tooltip title={row.info}>
+                          <IconButton>
+                            <InfoIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </>
+                    )}
                   </TableCell>
                   <TableCell align="left">{row.value}</TableCell>
                 </TableRow>
@@ -242,25 +231,38 @@ export default function RegistryPromptAreaComp(props) {
           </Table>
         </TableContainer>
 
-        <Typography variant="h6" sx={{ mt: 6, mb: 4, fontWeight: "bold" }}>
+        <Divider
+          className="dividerForm"
+          sx={{ borderColor: "#00b33c" }}
+        ></Divider>
+
+        <Typography
+          variant="h6"
+          sx={{ mt: 2, mb: 4, fontWeight: "bold", color: "#00b33c" }}
+        >
           Legal Representative
         </Typography>
         <TableContainer>
-          <Table aria-label="simple table">
+          <Table aria-label="simple table" size="small">
             <TableBody>
-              {rowsPersonal.map((row) => (
+              {shortePersonalRow.map((row) => (
                 <TableRow
-                  key={row.name}
-                  sx={{
-                    "&:last-child td, &:last-child th": {
-                      border: 0,
-                    },
-                  }}
+                  key={row.variabl}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     <Box fontWeight="fontWeightBold" display="inline">
                       {row.variabl}
                     </Box>
+                    {row.info != null && (
+                      <>
+                        <Tooltip title={row.info}>
+                          <IconButton>
+                            <InfoIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </>
+                    )}
                   </TableCell>
                   <TableCell align="left">{row.value}</TableCell>
                 </TableRow>
@@ -269,7 +271,6 @@ export default function RegistryPromptAreaComp(props) {
           </Table>
         </TableContainer>
       </>
-
 
       <Box sx={{ display: "flex", flexDirection: "row", pt: 4 }}>
         <Button
@@ -282,7 +283,6 @@ export default function RegistryPromptAreaComp(props) {
           Back
         </Button>
         <Box sx={{ flex: "1 1 auto" }} />
-       
 
         {props.activeStep == 2 && (
           <>
@@ -299,10 +299,6 @@ export default function RegistryPromptAreaComp(props) {
             </Button>
           </>
         )}
-
-      
-
-        
       </Box>
     </React.Fragment>
   );

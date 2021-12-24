@@ -89,7 +89,7 @@ export default function LayoutNew(props, { children, home }) {
       <Container maxWidth="lg">
         <Grid container spacing={4} sx={{ mt: 2 }}>
           <Grid item md={4} xs={10}>
-            <img src="/logo2.svg" alt="" className="kyb" width="100%" />
+            <img src="/logo-group.svg" alt="" className="kyb" width="100%" />
           </Grid>
 
           <Grid item xs={6} sx={{ display: { xs: "none", md: "block" } }}>
@@ -124,7 +124,7 @@ export default function LayoutNew(props, { children, home }) {
                     Welcome
                   </Typography>
                   <Typography variant="h5" component="div">
-                    {props.activeStep + 1}. Build your KYB profile
+                    Build your KYB profile
                   </Typography>
                   <Typography variant="body2" sx={{ mt: 4 }}>
                     In order to initiate the generation of the KYB profile of
@@ -151,7 +151,7 @@ export default function LayoutNew(props, { children, home }) {
                     Validate
                   </Typography>
                   <Typography variant="h5" component="div">
-                    {props.activeStep + 1}. Almost Ready
+                    Almost Ready
                   </Typography>
                   <Box my={3}>
                     <img src="/sign.svg" alt="sign-img" width="100%" />
@@ -171,7 +171,7 @@ export default function LayoutNew(props, { children, home }) {
                     Profile
                   </Typography>
                   <Typography variant="h5" component="div">
-                    {props.activeStep + 1}. KYB profile (Finish or Register)
+                    KYB profile (Finish or Register)
                   </Typography>
                   <Typography variant="body2" sx={{ mt: 4 }}>
                     1. Finish: Your KYB Profile has been generated successfully.
@@ -186,8 +186,7 @@ export default function LayoutNew(props, { children, home }) {
                     government bodies and other qualified entities, the
                     possibility to instantly Verify the KYB attributes of your
                     Company, thus facilitating and simplifying your dealings
-                    with these parties. To do so click “Register”. To learn more
-                    about Verifiable KYB data click here{" "}
+                    with these parties. To do so click “Register”.
                   </Typography>
                   <Box my={3}>
                     <img src="/information.svg" alt="sign-img" width="100%" />
@@ -207,7 +206,7 @@ export default function LayoutNew(props, { children, home }) {
                     Register
                   </Typography>
                   <Typography variant="h5" component="div">
-                    {props.activeStep + 1}. Completed
+                    Completed
                   </Typography>
                   <Typography variant="body2" sx={{ mt: 4 }}>
                     Your Company’s KYB profile has been successfully added to

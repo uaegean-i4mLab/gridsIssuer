@@ -8,30 +8,22 @@ import { getSessionData, setOrUpdateSessionData } from "../services/redis";
 
 
 const companySelection = async (app, req, res) => {
-  let sessionId = uuidv4();
-  // console.log(`created the following session ${sessionId}`);
-  // read cookies
-  // console.log(req.cookies);
-
+ 
   let options = {
     maxAge: 1000 * 60 * 15, // would expire after 15 minutes
-    httpOnly: true, // The cookie only accessible by the web server
+    httpOnly: false, // The cookie only accessible by the web server
     signed: false, // Indicates if the cookie should be signed
   };
 
-  let externalSessionId = req.query.extSessionId ? req.query.extSessionId : "";
-  console.log(`hey the external session id is:${req.query.extSessionId}`);
+  let externalSessionId = req.query.extSessionId ? req.query.extSessionId : null;
+  let sessionId = externalSessionId?externalSessionId:uuidv4();
+  // console.log(`hey the external session id is:${req.query.extSessionId}`);
   // Set cookie
   res.cookie("sessionId", sessionId, options); // options is optional
   res.cookie("extSessionId", externalSessionId, options);
   res.cookie("kyb", "false", options); // options is optional
 
-  if(req.query.country){
-    console.log("country send by Client " + req.query.country)
-    console.log("company name send by Client " + req.query.companyName)
-    console.log("company name send by Client " + req.query.legal_person_identifier)
-  }
-
+  req.sessionId = sessionId;
   return app.render(req, res, "/kyb/company-selection", req.query);
 };
 
@@ -43,7 +35,8 @@ const startLogin = async (app, req, res, serverPassport, oidcClient) => {
   let country = req.body.country
 
   let claims = defaultClaims;
-  let sessionId = req.cookies.sessionId;
+  console.log("2 2222222222 ViewControllers.js startLogin " + req.query.sessionId)
+  let sessionId =  req.query.sessionId;
 
 
   
@@ -95,11 +88,15 @@ const startLogin = async (app, req, res, serverPassport, oidcClient) => {
   }
 
   // updatePassportConfig(serverPassport, claims, oidcClient);
-  res.redirect(307, "/login");
+  res.redirect(307, "/login?sessionId="+sessionId);
 };
 
 const validateRelationship = async (app, req, res, endpoint) => {
-  let sessionId = req.cookies.sessionId;
+  
+  // console.log("000000000000000000000000000000")
+  // console.log(req.query)
+  
+  let sessionId = req.query.sessionId;
   let userDetails = await getSessionData(sessionId, "userDetails");
   let legalPersonIdentifier = await getSessionData(
     sessionId,
@@ -136,6 +133,28 @@ const validateRelationship = async (app, req, res, endpoint) => {
 };
 
 const registryPrompt = async (app, req, res, endpoint) => {
+  let sessionId = req.query.sessionId;
+  console.log("1111111111111111")
+  console.log(req.query)
+  console.log("*******************")
+
+  let userDetails = await getSessionData(sessionId, "userDetails");
+  let selfLei = await getSessionData(sessionId, "selfLEI");
+  // console.log(`sessionId ${sessionId} details:`)
+  req.userDetails = userDetails;
+  req.selfLei = selfLei;
+  req.sessionId = sessionId;
+  // req.extSessionId = req.cookies.extSessionId;
+
+  //below:: sessionId <<---  req.cookies.extSessionId
+  req.keycloakRedirectURI = process.env.KEYCLOAK_REDIRECT_URI
+    ? `${process.env.KEYCLOAK_REDIRECT_URI}?extSessionId=${sessionId}&userDetails=${encodeURIComponent(JSON.stringify(userDetails))}`
+    : `http://localhost:8081/auth/realms/kyb/rest/kybResponse?extSessionId=${sessionId}&userDetails=${encodeURIComponent(JSON.stringify(userDetails))}`;
+  return app.render(req, res, "/kyb/registry-prompt", req.query);
+};
+
+
+const registrySuccess = async (app, req, res, endpoint) => {
   let sessionId = req.cookies.sessionId;
   let userDetails = await getSessionData(sessionId, "userDetails");
   let selfLei = await getSessionData(sessionId, "selfLEI");
@@ -147,8 +166,9 @@ const registryPrompt = async (app, req, res, endpoint) => {
   req.keycloakRedirectURI = process.env.KEYCLOAK_REDIRECT_URI
     ? `${process.env.KEYCLOAK_REDIRECT_URI}?extSessionId=${req.cookies.extSessionId}&userDetails=${encodeURIComponent(JSON.stringify(userDetails))}`
     : `http://localhost:8081/auth/realms/kyb/rest/kybResponse?extSessionId=${req.cookies.extSessionId}&userDetails=${encodeURIComponent(JSON.stringify(userDetails))}`;
-  return app.render(req, res, "/kyb/registry-prompt", req.query);
+  return app.render(req, res, "/kyb/registry-success", req.query);
 };
+
 
 const issueKYB = async (app, req, res, serverPassport, oidcClient) => {
   let sessionId = req.query.sessionId;
@@ -313,4 +333,5 @@ export {
   registryPrompt,
   issueKYB,
   issueVcKYBResponse,
+  registrySuccess
 };

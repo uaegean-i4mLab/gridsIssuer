@@ -3,5 +3,5 @@
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
   "/kyb/company-selection": "pages/kyb/company-selection.js",
-  "/kyb/registry-success": "pages/kyb/registry-success.js"
+  "/kyb/registry-prompt": "pages/kyb/registry-prompt.js"
 }

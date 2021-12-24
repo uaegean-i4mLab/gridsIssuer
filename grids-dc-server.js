@@ -9,10 +9,14 @@ import {
   startLogin,
   validateRelationship,
   registryPrompt,
+  registrySuccess,
   issueKYB,
   issueVcKYBResponse,
 } from "./controllers/views-controllers";
-import { startKompanyLogin, kompanyProcceed } from "./controllers/kompanyControllers";
+import {
+  startKompanyLogin,
+  kompanyProcceed,
+} from "./controllers/kompanyControllers";
 import {
   startSession,
   makeEidasRedirectionToken,
@@ -105,44 +109,64 @@ app.prepare().then(async () => {
   //CONTROLLERS
 
   //sse
-  server.get(["/events","/kyb/events"], subscribe);
+  server.get(["/events", "/kyb/events"], subscribe);
 
   //view
-  server.get(["/company-selection","/kyb/company-selection"], async (req, res) => {
-    console.log("/company-selection");
-    return companySelection(app, req, res, serverConfiguration.endpoint);
-  });
-  server.post(["/start-login","/kyb/start-login"], async (req, res) => {
+  server.get(
+    ["/company-selection", "/kyb/company-selection"],
+    async (req, res) => {
+      console.log("/company-selection");
+      return companySelection(app, req, res, serverConfiguration.endpoint);
+    }
+  );
+  server.post(["/start-login", "/kyb/start-login"], async (req, res) => {
     console.log("/start-login");
     startLogin(app, req, res, serverPassport, oidcClient);
   });
-  server.get(["/validate-relation","/kyb/validate-relation"], async (req, res) => {
-    console.log("/validate-relation");
-    return validateRelationship(app, req, res, serverConfiguration.endpoint);
-  });
-  server.get(["/kyb/registry-prompt","/kyb/kyb/registry-prompt"], async (req, res) => {
-    console.log("/kyb/registry-prompt");
-    return registryPrompt(app, req, res, serverConfiguration.endpoint);
-  });
+  server.get(
+    ["/validate-relation", "/kyb/validate-relation"],
+    async (req, res) => {
+      console.log("/validate-relation");
+      return validateRelationship(app, req, res, serverConfiguration.endpoint);
+    }
+  );
+  server.get(
+    ["/kyb/registry-prompt", "/kyb/kyb/registry-prompt"],
+    async (req, res) => {
+      console.log("/kyb/registry-prompt");
+      return registryPrompt(app, req, res, serverConfiguration.endpoint);
+    }
+  );
+
+  //registrySuccess
+  server.get(
+    ["/kyb/registry-prompt", "/kyb/kyb/registry-success"],
+    async (req, res) => {
+      console.log("/kyb/registry-success");
+      return registrySuccess(app, req, res, serverConfiguration.endpoint);
+    }
+  );
+
   // view VC controllers
-  server.get(["/vc/issue/kyb","/kyb/vc/issue/kyb"], async (req, res) => {
+  server.get(["/vc/issue/kyb", "/kyb/vc/issue/kyb"], async (req, res) => {
     console.log("/vc/issue/kyb");
     return issueKYB(app, req, res, serverPassport, oidcClient);
   });
   //issueVcKYBResponse
-  server.get(["/vc/issue/kybResponse","/kyb/vc/issue/kybResponse"], async (req, res) => {
-    console.log("/vc/issue/kybResponse");
-    return issueVcKYBResponse(
-      app,
-      req,
-      res,
-      serverConfiguration.endpoint,
-      serverPassport,
-      oidcClient
-    );
-  });
-
- 
+  server.get(
+    ["/vc/issue/kybResponse", "/kyb/vc/issue/kybResponse"],
+    async (req, res) => {
+      console.log("/vc/issue/kybResponse");
+      return issueVcKYBResponse(
+        app,
+        req,
+        res,
+        serverConfiguration.endpoint,
+        serverPassport,
+        oidcClient
+      );
+    }
+  );
 
   // registry
   server.post(["/registry/add", "/kyb/registry/add"], async (req, res) => {
@@ -151,27 +175,12 @@ app.prepare().then(async () => {
   });
 
   //email
-  server.post(["/email/send","/kyb/email/send"], async (req, res) => {
+  server.post(["/email/send", "/kyb/email/send"], async (req, res) => {
     console.log("/email/send");
     await sendEmailVCInvite(req, res);
   });
 
-  // //seal
-  // server.post(["/seal/start-session"], async (req, res) => {
-  //   console.log("/seal/start-session");
-  //   await startSession(app, req, res, serverConfiguration.endpoint);
-  // });
-  // server.get(["/seal/make-eidas-token"], async (req, res) => {
-  //   console.log("/seal/make-eidas-token");
-  //   res.send(
-  //     await makeEidasRedirectionToken(req, res, serverConfiguration.endpoint)
-  //   );
-  // });
-  // server.post(["/seal/update-session"], async (req, res) => {
-  //   console.log("/seal/update-session ");
-  //   res.send(await updateSession(req, res, serverConfiguration.endpoint));
-  // });
-
+  
   // session
   server.post(["/start-session", "/kyb/start-session"], async (req, res) => {
     console.log("/start-session");
@@ -183,17 +192,23 @@ app.prepare().then(async () => {
   });
 
   //jolo
-  server.post(["/makeConnectionRequest", "/kyb/makeConnectionRequest"], async (req, res) => {
-    console.log("/makeConnectionRequest");
-    makeConnectionRequestController(req, res, issuerAgent);
-  });
+  server.post(
+    ["/makeConnectionRequest", "/kyb/makeConnectionRequest"],
+    async (req, res) => {
+      console.log("/makeConnectionRequest");
+      makeConnectionRequestController(req, res, issuerAgent);
+    }
+  );
 
-  server.post(["/connectionResponse","/kyb/connectionResponse"], async (req, res) => {
-    console.log("/connectionResponse");
-    handleConnectionResponse(req, res, issuerAgent);
-  });
+  server.post(
+    ["/connectionResponse", "/kyb/connectionResponse"],
+    async (req, res) => {
+      console.log("/connectionResponse");
+      handleConnectionResponse(req, res, issuerAgent);
+    }
+  );
 
-  server.post(["/issueVC","/kyb/issueVC"], async (req, res) => {
+  server.post(["/issueVC", "/kyb/issueVC"], async (req, res) => {
     console.log("/issueVC");
     // console.log(req.body)
     handleVCRequestController(
@@ -204,16 +219,20 @@ app.prepare().then(async () => {
     );
   });
 
-  server.post(["/offerResponse","/kyb/offerResponse"], async (req, res) => {
+  server.post(["/offerResponse", "/kyb/offerResponse"], async (req, res) => {
     console.log("/offerResponse");
     handleVCResponseController(req, res, issuerAgent);
   });
 
   // kompany helpers
-  server.post(["/kompany-start-login", "/kyb/kompany-start-login"], cors(), async (req, res) => {
-    console.log("/kompany-start-login");
-    startKompanyLogin(app, req, res, serverPassport, oidcClient);
-  });
+  server.post(
+    ["/kompany-start-login", "/kyb/kompany-start-login"],
+    cors(),
+    async (req, res) => {
+      console.log("/kompany-start-login");
+      startKompanyLogin(app, req, res, serverPassport, oidcClient);
+    }
+  );
   server.get(["/kompany/proceed", "/kyb/kompany/proceed"], async (req, res) => {
     console.log("/kompany/proceed");
     kompanyProcceed(app, req, res);

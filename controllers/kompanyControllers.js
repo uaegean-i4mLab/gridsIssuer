@@ -10,7 +10,8 @@ import { getSessionData, setOrUpdateSessionData } from "../services/redis";
 const kompanyProcceed = async(app,req,res) =>{
 
   console.log("/kompany/proceed");
-  let sessionId = req.cookies.sessionId;
+  let sessionId = req.query.sessionId//req.cookies.sessionId;
+
   let userDetails = await getSessionData(sessionId, "userDetails");
   let redirectURI = await getSessionData(sessionId, "redirect_uri");
   req.userDetails = userDetails;
@@ -18,7 +19,9 @@ const kompanyProcceed = async(app,req,res) =>{
     req.error = userDetails.error
   }
   req.redirectURI = redirectURI
-  let komanyAuthFinished = req.cookies.komanyAuthFinished;
+  let komanyAuthFinished = req.cookies.komanyAuthFinished?req.cookies.komanyAuthFinished:req.query.komanyAuthFinished;
+  //TODO
+
   console.log("Kompany/procced cookies:")
   console.log(req.cookies)
   if(komanyAuthFinished){
@@ -50,7 +53,7 @@ const startKompanyLogin = async (app, req, res, serverPassport, oidcClient) => {
   let country = req.body.country;
   let externalSessionId = req.body.externalSessionId;
   let redirectURI = req.body.redirect_uri;
-  let sessionId = uuidv4();
+  let sessionId = req.body.externalSessionId;
 
   let claims = defaultClaims;
   // let sessionId = req.cookies.sessionId;
@@ -105,8 +108,10 @@ const startKompanyLogin = async (app, req, res, serverPassport, oidcClient) => {
     updatePassportConfig(serverPassport, claims, oidcClient);
   }
 
+  console.log("2a 22222222222222 sessionId=  " + sessionId)
+
   // updatePassportConfig(serverPassport, claims, oidcClient);
-  res.redirect(307, "/login");
+  res.redirect(307, "/login?sessionId="+sessionId);
 };
 
 

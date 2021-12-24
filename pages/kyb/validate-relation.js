@@ -18,17 +18,22 @@ class ValidateRelation extends React.Component {
     let companyIdentifier = req.legalPersonIdentifier
       ? req.legalPersonIdentifier
       : req.companyName;
+
+    let sessionId = req.sessionId;
     return {
       userDetails: req.userDetails,
       legalPersonIdentifier: req.legalPersonIdentifier,
       companyName: req.companyName,
       companyIdentifier: companyIdentifier,
-      error: req.error
+      error: req.error,
+      sessionId: sessionId,
     };
   }
 
   signAndProceed = () => {
-    window.location.href = "/kyb/registry-prompt";
+    console.log("/kyb/registry-prompt?sessionId=" + this.props.sessionId);
+    window.location.href =
+      "/kyb/registry-prompt?sessionId=" + this.props.sessionId;
     // history.push("/kyb/registry-prompt");
   };
 
@@ -61,6 +66,7 @@ class ValidateRelation extends React.Component {
 function mapStateToProps(state) {
   return {
     test: "Test",
+    // sessionId: state.sessionId,
   };
 }
 

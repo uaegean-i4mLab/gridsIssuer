@@ -98,44 +98,44 @@ export default function CompanySelectionForm(props) {
             onChange={props.handleChange}
             variant="filled"
           >
-            <MenuItem value={"AT"}>Austria</MenuItem>
+            <MenuItem value={"AT"}>AUSTRIA</MenuItem>
 
-            <MenuItem value={"BE"}>Belgium</MenuItem>
-            <MenuItem value={"BG"}>Bulgaria</MenuItem>
-            <MenuItem value={"HR"}>Croatia</MenuItem>
-            <MenuItem value={"CY"}>Cyprus</MenuItem>
+            <MenuItem value={"BE"}>BELGIUM</MenuItem>
+            <MenuItem value={"BG"}>BULGARIA</MenuItem>
+            <MenuItem value={"HR"}>CROATIA</MenuItem>
+            <MenuItem value={"CY"}>CYPRUS</MenuItem>
 
-            <MenuItem value={"CZ"}>Czechia</MenuItem>
+            <MenuItem value={"CZ"}>CZECHIA</MenuItem>
 
-            <MenuItem value={"DK"}>Denmark</MenuItem>
-            <MenuItem value={"EE"}>Estonia</MenuItem>
-            <MenuItem value={"FI"}>Finland</MenuItem>
+            <MenuItem value={"DK"}>DENMARK</MenuItem>
+            <MenuItem value={"EE"}>ESTONIA</MenuItem>
+            <MenuItem value={"FI"}>FINLAND</MenuItem>
 
-            <MenuItem value={"FR"}>France</MenuItem>
+            <MenuItem value={"FR"}>FRANCE</MenuItem>
 
-            <MenuItem value={"DE"}>Germany</MenuItem>
-            <MenuItem value={"GR"}>Greece</MenuItem>
-            <MenuItem value={"HU"}>Hungary</MenuItem>
+            <MenuItem value={"DE"}>GERMANY</MenuItem>
+            <MenuItem value={"GR"}>GREECE</MenuItem>
+            <MenuItem value={"HU"}>HUNGARY</MenuItem>
 
-            <MenuItem value={"IE"}>Ireland</MenuItem>
-            <MenuItem value={"IT"}>Italy</MenuItem>
+            <MenuItem value={"IE"}>IRELAND</MenuItem>
+            <MenuItem value={"IT"}>ITALY</MenuItem>
 
-            <MenuItem value={"LV"}>Latvia</MenuItem>
-            <MenuItem value={"LU"}>Luxembourg</MenuItem>
-            <MenuItem value={"LT"}>Lithuania</MenuItem>
-            <MenuItem value={"MT"}>Malta</MenuItem>
-            <MenuItem value={"NL"}>Netherlands</MenuItem>
+            <MenuItem value={"LV"}>LATVIA</MenuItem>
+            <MenuItem value={"LU"}>LUXEMBOURG</MenuItem>
+            <MenuItem value={"LT"}>LITHUANIA</MenuItem>
+            <MenuItem value={"MT"}>MALTA</MenuItem>
+            <MenuItem value={"NL"}>NETHERLANDS</MenuItem>
 
-            <MenuItem value={"PL"}>Poland</MenuItem>
-            <MenuItem value={"PT"}>Portugal</MenuItem>
-            <MenuItem value={"RO"}>Romania</MenuItem>
+            <MenuItem value={"PL"}>POLAND</MenuItem>
+            <MenuItem value={"PT"}>PORTUGAL</MenuItem>
+            <MenuItem value={"RO"}>ROMANIA</MenuItem>
 
-            <MenuItem value={"ES"}>Spain</MenuItem>
-            <MenuItem value={"SK"}>Slovakia</MenuItem>
+            <MenuItem value={"ES"}>SPAIN</MenuItem>
+            <MenuItem value={"SK"}>SLOVAKIA</MenuItem>
 
-            <MenuItem value={"SI"}>Slovenia</MenuItem>
-            <MenuItem value={"SE"}>Sweden</MenuItem>
-            <MenuItem value={"UK"}>United Kingdom</MenuItem>
+            <MenuItem value={"SI"}>SLOVENIA</MenuItem>
+            <MenuItem value={"SE"}>SWEDEN</MenuItem>
+            <MenuItem value={"UK"}>UNITED KINGDOM</MenuItem>
           </Select>
         </FormControl>
 

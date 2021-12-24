@@ -30,6 +30,7 @@ class CompanySelectionWrapper extends React.Component {
     // mapstatetoprops overrides these values if they match
     return {
       userDetails: req.userDetails,
+      sessionId: req.sessionId,
     };
   }
 
@@ -73,11 +74,12 @@ class CompanySelectionWrapper extends React.Component {
         <Head>
           <title>Grids</title>
         </Head>
-        <form action="/start-login" method="post">
+        <form action={`/start-login?sessionId=${this.props.sessionId}`} method="post">
           <CompanySelectionForm
             activeStep={0}
             handleChange={this.handleChange}
             isNextEnabled={this.state.isNextEnabled}
+            sessionId={this.props.sessionId}
           />
         </form>
         {/*<label className="row">

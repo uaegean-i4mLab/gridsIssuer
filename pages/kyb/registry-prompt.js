@@ -66,12 +66,13 @@ class Wizard extends React.Component {
   proceedToKeycloak() {
     //finish the flow by redirecting back to keycloak to  "continue" the OIDC flow originated by the DC
     console.log("proceed to keycloak");
+    let sessionId = this.props.sessionId;
     let isKompanySpecificFlow = Cookies.get("kompanySessionId");
     
     if (isKompanySpecificFlow) {
       Cookies.set("komanyAuthFinished", "true");
       Cookies.remove("kompanySessionId")
-      window.location.href = "/kompany/proceed";
+      window.location.href = "/kompany/proceed?sessionId="+sessionId;
     } else {
       window.location.href = this.props.keycloakUrl;
     }

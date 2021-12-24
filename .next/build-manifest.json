@@ -29,10 +29,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/kyb/company-selection.js"
     ],
-    "/kyb/registry-success": [
+    "/kyb/registry-prompt": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/kyb/registry-success.js"
+      "static/chunks/pages/kyb/registry-prompt.js"
     ]
   },
   "ampFirstPages": []
